@@ -22,7 +22,6 @@
 #include "service.h"
 #include "samgr_lite.h"
 #include "time_adapter.h"
-#include "hctest.h"
 
 typedef struct DefaultFeatureApi {
     INHERIT_IUNKNOWN;
@@ -171,4 +170,4 @@ static void RunTestCase(void)
     CASE_SyncCall(defaultApi);
     CASE_ReleaseIUnknown(defaultApi);
 }
-TEST_INIT(RunTestCase);
+LAYER_INITCALL_DEF(RunTestCase, test, "test");

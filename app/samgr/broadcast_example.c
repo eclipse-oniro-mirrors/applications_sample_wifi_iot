@@ -19,7 +19,6 @@
 #include <los_base.h>
 #include <cmsis_os.h>
 #include "time_adapter.h"
-#include "hctest.h"
 
 #define TEST_LEN 10
 #define WAIT_PUB_PROC 1000
@@ -222,4 +221,4 @@ static void RunTestCase(void)
     CASE_ReUnsubscribeTopic(fapi);
     CASE_ReleaseIUnknown(fapi);
 }
-TEST_INIT(RunTestCase);
+LAYER_INITCALL_DEF(RunTestCase, test, "test");

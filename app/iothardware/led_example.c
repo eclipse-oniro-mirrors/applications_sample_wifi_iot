@@ -19,13 +19,12 @@
 
 #include "ohos_init.h"
 #include "cmsis_os2.h"
-#include "wifiiot_gpio.h"
-#include "wifiiot_gpio_ex.h"
+#include "iot_gpio.h"
 
 #define LED_INTERVAL_TIME_US 300000
 #define LED_TASK_STACK_SIZE 512
 #define LED_TASK_PRIO 25
-
+#define LED_TEST_GPIO 9 // for hispark_pegasus
 enum LedState {
     LED_ON = 0,
     LED_OFF,
@@ -40,17 +39,17 @@ static void *LedTask(const char *arg)
     while (1) {
         switch (g_ledState) {
             case LED_ON:
-                GpioSetOutputVal(WIFI_IOT_IO_NAME_GPIO_9, 1);
+                IoTGpioSetOutputVal(LED_TEST_GPIO, 1);
                 usleep(LED_INTERVAL_TIME_US);
                 break;
             case LED_OFF:
-                GpioSetOutputVal(WIFI_IOT_IO_NAME_GPIO_9, 0);
+                IoTGpioSetOutputVal(LED_TEST_GPIO, 0);
                 usleep(LED_INTERVAL_TIME_US);
                 break;
             case LED_SPARK:
-                GpioSetOutputVal(WIFI_IOT_IO_NAME_GPIO_9, 0);
+                IoTGpioSetOutputVal(LED_TEST_GPIO, 0);
                 usleep(LED_INTERVAL_TIME_US);
-                GpioSetOutputVal(WIFI_IOT_IO_NAME_GPIO_9, 1);
+                IoTGpioSetOutputVal(LED_TEST_GPIO, 1);
                 usleep(LED_INTERVAL_TIME_US);
                 break;
             default:
@@ -62,39 +61,12 @@ static void *LedTask(const char *arg)
     return NULL;
 }
 
-static void OnButtonPressed(char *arg)
-{
-    (void) arg;
-
-    enum LedState nextState = LED_SPARK;
-    switch (g_ledState) {
-        case LED_ON:
-            nextState = LED_OFF;
-            break;
-        case LED_OFF:
-            nextState = LED_ON;
-            break;
-        case LED_SPARK:
-            nextState = LED_OFF;
-            break;
-        default:
-            break;
-    }
-
-    g_ledState = nextState;
-}
-
 static void LedExampleEntry(void)
 {
     osThreadAttr_t attr;
 
-    GpioInit();
-    IoSetFunc(WIFI_IOT_IO_NAME_GPIO_9, WIFI_IOT_IO_FUNC_GPIO_9_GPIO);
-    GpioSetDir(WIFI_IOT_IO_NAME_GPIO_9, WIFI_IOT_GPIO_DIR_OUT);
-
-    IoSetFunc(WIFI_IOT_IO_NAME_GPIO_5, WIFI_IOT_IO_FUNC_GPIO_5_GPIO);
-    GpioRegisterIsrFunc(WIFI_IOT_IO_NAME_GPIO_5, WIFI_IOT_INT_TYPE_EDGE, WIFI_IOT_GPIO_EDGE_FALL_LEVEL_LOW,
-        OnButtonPressed, NULL);
+    IoTGpioInit(LED_TEST_GPIO);
+    IoTGpioSetDir(LED_TEST_GPIO, IOT_GPIO_DIR_OUT);
 
     attr.name = "LedTask";
     attr.attr_bits = 0U;

@@ -13,6 +13,7 @@
 
 static_library("example_samgr") {
   sources = [
+    "//test/xts/acts/distributedschedule_lite/samgr_hal/utils/samgr_maintenance.c",
     "bootstrap_example.c",
     "broadcast_example.c",
     "feature_example.c",
@@ -25,11 +26,11 @@ static_library("example_samgr") {
 
   include_dirs = [
     "//utils/native/lite/include",
-    "//kernel/liteos_m/kal",
-    "//foundation/distributedschedule/interfaces/kits/samgr_lite/samgr",
-    "//foundation/distributedschedule/interfaces/kits/samgr_lite/communication/broadcast",
-    "//foundation/distributedschedule/services/samgr_lite/samgr/source",
-    "//foundation/distributedschedule/services/samgr_lite/samgr/adapter",
-    "//test/xts/tools/hctest/include",
+    "//kernel/liteos_m/components/cmsis",
+    "//foundation/distributedschedule/samgr_lite/interfaces/kits/samgr",
+    "//foundation/distributedschedule/samgr_lite/interfaces/kits/communication/broadcast",
+    "//foundation/distributedschedule/samgr_lite/samgr/adapter",
+    "//foundation/distributedschedule/samgr_lite/samgr/source",
+    "//test/xts/acts/distributedschedule_lite/samgr_hal/utils",
   ]
 }

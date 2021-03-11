@@ -23,7 +23,6 @@
 #include "service.h"
 #include "samgr_lite.h"
 #include "time_adapter.h"
-#include "hctest.h"
 
 #define WAIT_FEATURE_PROC 1000
 enum MessageId {
@@ -109,11 +108,8 @@ static BOOL FEATURE_OnMessage(Feature *feature, Request *request)
     } else {
         if (request->msgId == MSG_TIME_PROC) {
             LOS_Msleep(WAIT_FEATURE_PROC * 11); // sleep 11 seconds
-            if (request->msgValue) {
-                SAMGR_PrintServices();
-            } else {
-                SAMGR_PrintOperations();
-            }
+            printf("[LPC Test][TaskID:%p][OnMessage: S:%s, F:%s] Time Message Get Value<%s>!",
+                osThreadGetId(), EXAMPLE_SERVICE, feature->GetName(feature), request->msgValue ? "TRUE" : "FALSE");
             AsyncTimeCall(GET_IUNKNOWN(g_example));
             return FALSE;
         }
@@ -306,4 +302,4 @@ static void RunTestCase(void)
     CASE_AsyncTimeCall(demoApi);
     CASE_ReleaseIUnknown(demoApi);
 }
-TEST_INIT(RunTestCase);
+LAYER_INITCALL_DEF(RunTestCase, test, "test");
