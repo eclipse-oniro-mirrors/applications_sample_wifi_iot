@@ -13,7 +13,7 @@
 
 static_library("example_samgr") {
   sources = [
-    "//test/xts/acts/distributedschedule_lite/samgr_hal/utils/samgr_maintenance.c",
+    "//test/xts/acts/distributed_schedule_lite/samgr_hal/utils/samgr_maintenance.c",
     "bootstrap_example.c",
     "broadcast_example.c",
     "feature_example.c",
@@ -31,6 +31,6 @@ static_library("example_samgr") {
     "//foundation/distributedschedule/samgr_lite/interfaces/kits/communication/broadcast",
     "//foundation/distributedschedule/samgr_lite/samgr/adapter",
     "//foundation/distributedschedule/samgr_lite/samgr/source",
-    "//test/xts/acts/distributedschedule_lite/samgr_hal/utils",
+    "//test/xts/acts/distributed_schedule_lite/samgr_hal/utils",
   ]
 }
